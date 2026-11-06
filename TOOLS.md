@@ -248,6 +248,13 @@ Tools marked with **(confirm)** below use this pattern.
 | `get_device_policy_overrides` | — | Get policy overrides for a device | `id` |
 | `reset_device_policy_overrides` | **(confirm)** | Reset all policy overrides | `id`, `confirm?` |
 
+> **Known limitation**: `get_policy_conditions` only covers the two condition types
+> the public NinjaOne API exposes for reading — `windows-event` and
+> `custom-fields`. Built-in condition categories shown in the NinjaOne dashboard
+> (CPU/performance, disk, Windows service health, antivirus, patch thresholds,
+> network, etc.) have no documented public API endpoint and are not returned by
+> this tool, even though a policy may have many of them configured.
+
 ### Device Approval
 
 | Tool | Confirm | Description | Parameters |

@@ -379,10 +379,20 @@ This gives the operator a chance to review before committing.
 
 ### Phase 4 — Script Execution & Policy Management
 - **Automations**: `list_automations`, `run_device_script`, `get_script_result`
-- **Policy management**: `get_policy`, `assign_device_policy` with confirm
+- **Policy management**: `get_policy`, `get_policy_conditions`, `assign_device_policy` with confirm
 - **Device approval**: `get_pending_devices`, `approve_devices` with confirm
 
 > **Note**: Ticket writes (`create_ticket`, `update_ticket`, `add_ticket_comment`) and `run_device_script` require a user-context token (authorization_code flow). Run `npm run auth` once to enable them — see [User-Context OAuth](#user-context-oauth-authorization-code-flow). Reads keep working with client_credentials alone.
+
+> **Known limitation — `get_policy_conditions`**: the public NinjaOne API only exposes
+> GET endpoints for two condition types, `windows-event` and `custom-fields`
+> (`/v2/policies/{id}/condition/{type}`, verified against the official
+> `apidocs-beta` operation reference). Built-in condition categories visible in the
+> NinjaOne dashboard — CPU/performance, disk usage, Windows service health,
+> antivirus status, patch thresholds, network utilization, etc. — are **not**
+> retrievable through this or any other documented public API endpoint. A policy
+> can therefore have many more conditions configured than this tool will ever show;
+> for those, the NinjaOne dashboard (Policy → Conditions) remains the only source.
 
 See [TOOLS.md](TOOLS.md) for the complete tool reference with parameters.
 
