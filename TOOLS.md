@@ -243,6 +243,7 @@ Tools marked with **(confirm)** below use this pattern.
 |------|---------|-------------|------------|
 | `get_policies` | — | List all policies | `templateOnly?` |
 | `get_policy` | — | Get policy detail | `policyId` |
+| `get_policy_conditions` | — | Get policy monitoring conditions (windows-event, custom-fields) | `policyId`, `conditionType?` |
 | `assign_device_policy` | **(confirm)** | Assign policy to a device | `deviceId`, `policyId`, `confirm?` |
 | `get_device_policy_overrides` | — | Get policy overrides for a device | `id` |
 | `reset_device_policy_overrides` | **(confirm)** | Reset all policy overrides | `id`, `confirm?` |

@@ -1187,6 +1187,18 @@ const TOOLS = [
     }
   },
   {
+    name: 'get_policy_conditions',
+    description: 'Get monitoring conditions configured in a specific policy (windows-event, custom-fields), optionally filtered by condition type',
+    inputSchema: {
+      type: 'object',
+      properties: {
+        policyId: { type: 'number', description: 'Policy ID' },
+        conditionType: { type: 'string', description: 'Optional: specific condition type (windows-event or custom-fields). Omit to fetch all known types.' }
+      },
+      required: ['policyId']
+    }
+  },
+  {
     name: 'assign_device_policy',
     description: 'Assign a policy to a device. Set confirm=true to execute; default is dry-run.',
     inputSchema: {
@@ -1760,6 +1772,8 @@ class NinjaOneMCPServer {
         // ── Phase 4: Policy management ──
         case 'get_policy':
           return this.result(await this.api.getPolicy(args.policyId));
+        case 'get_policy_conditions':
+          return this.result(await this.api.getPolicyConditions(args.policyId, args.conditionType));
         case 'assign_device_policy': {
           if (!args.confirm) {
             const device = await this.api.getDevice(args.deviceId);

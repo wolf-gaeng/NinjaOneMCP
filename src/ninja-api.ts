@@ -1119,6 +1119,26 @@ export class NinjaOneAPI {
     return policy;
   }
 
+  async getPolicyConditions(policyId: number, conditionType?: string): Promise<any> {
+    // Verified against the public NinjaOne API reference (apidocs-beta): only
+    // windows-event and custom-fields have documented GET operations. Other
+    // UI-visible condition categories (performance, antivirus, etc.) are not
+    // exposed as distinct /v2/policies/{id}/condition/{type} endpoints there.
+    if (conditionType) {
+      return this.makeRequest(`/v2/policies/${policyId}/condition/${conditionType}`);
+    }
+    const types = ['windows-event', 'custom-fields'];
+    const results: Record<string, any> = {};
+    for (const t of types) {
+      try {
+        results[t] = await this.makeRequest(`/v2/policies/${policyId}/condition/${t}`);
+      } catch (e: any) {
+        results[t] = { error: e.message };
+      }
+    }
+    return results;
+  }
+
   async assignDevicePolicy(deviceId: number, policyId: number): Promise<any> {
     // No dedicated policy assignment endpoint. Use device PATCH with policyId.
     try {
